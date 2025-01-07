@@ -12,7 +12,7 @@ class DisplayStats():
         self.con = 1
         self.randant = 0
         self.bizval = 0
-        self.gameon = 1
+        self.gameOn = 1
         self.cocainePP = 0.1
         self.cocaineMin = 500
         self.warning = 0
@@ -27,7 +27,7 @@ class DisplayStats():
         self.stockTotalInvestment=0      # =self.stock * value when bought
         self.stockIndexRV=100.00    # stock index real value (how much it should be) - updated in engine
         self.stockIndexMV=100.00    # stock index market value (how much currently is) - updated in engine
-        self.stockNormalPerformance=0.05 # stock performance (it's actually a random 1 to 5%)
+        self.stockNormalPerformance=0.05 # stock performance (it's actually a random -1 to 5%)
 
         #bank
         self.interest=0.02   

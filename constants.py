@@ -264,7 +264,7 @@ ADVISER_PEDIA={
         "Adviser:\n"
         "If you have the resources, you can upgrade your business "
         "\nat a faster pace.\n"
-        "👉 Costs will be 30% higher than step-by-step growth.\n"
+        "👉 Costs will be 7% higher than step-by-step growth.\n"
         "👉 You'll also need 30% more connections."
     ),
 
@@ -303,7 +303,7 @@ ADVISER_PEDIA={
     "stocks": (
         "Adviser:\n"
         "Investing in stocks offers potential ROI:\n"
-        " - Real asset value appreciates monthly by 1-5%.\n"
+        " - Real asset value variates monthly in (-1.5%,+5%) range.\n"
         " - Market value is more volatile and unpredictable.\n\n"
         "Keep an eye on the stock market to make informed decisions!"
     ),
@@ -320,36 +320,41 @@ ADVISER_PEDIA={
 
     "credit": (
         "Adviser:\n"
-        "Credits can spiral out of control if not managed properly:\n"
-        "👉 Losing money at clubs, paying fines, or litigations can "
-        "\ninflate credits.\n"
-        "👉 Running out of cash or deposits worsens the situation.\n\n"
-        "Weekly repayment rate: 10% of total credits:\n"
-        " - 3% reduces principal.\n"
-        " - 7% covers interest.\n\n"
-        "Manage your credit wisely to avoid financial troubles!"
+        "👉 Credits can spiral out of control if not managed properly:\n"
+        "   - Losing money at clubs, paying fines, or litigations can\n"
+        "     inflate credits. 💸\n"
+        "👉 Asking the bank for a loan? The max amount will be 10% higher\n"
+        "   than your actual net worth. For each connection, the bank adds\n"
+        "   1pp to its max loan amount. 💵\n"
+        "👉 Running out of cash or deposits worsens the situation. ⚠️\n\n"
+        "📉 Monthly repayment rate: 10% of total credits:\n"
+        "   - 3% reduces the principal. 📉\n"
+        "   - 7% covers interest. 💰\n\n"
+        "Manage your credit wisely to avoid financial troubles! 🚨"
     ),
 
     "deposit": (
         "Adviser:\n"
-        "Deposits offer a 2% interest rate.\n"
-        "Though not as profitable as stocks or businesses, "
-        "\nthey are a safe investment."
+        "👉 Deposits offer a 2% interest rate.\n"
+        "   - They're safer than stocks or businesses but less profitable. 💼\n"
+        "   - A reliable option for steady growth! 🌱"
     ),
 
     "networth": (
         "Adviser:\n"
-        "Net worth is crucial for personal expenses, bank approvals, "
-        "\nand more:\n"
-        "Net Worth = cash + deposits + (stocks*) + (business**) - credits.\n"
-        " * Stocks: Considered at investment value, not market value.\n"
-        " * Business: Valued at current business worth."
+        "💰 Your net worth is crucial for personal expenses, bank approvals,\n"
+        "    and more:\n"
+        "   - Net Worth = cash + deposits + (stocks*) + (business**) - credits.\n"
+        "   - * Stocks: Considered at investment value, not market value.\n"
+        "   - ** Business: Valued at current business worth. 📊"
     ),
 
     "rest": (
         "Adviser:\n"
-        "Resting restores 75pp of energy but cannot exceed 100pp.\n"
-        "Jobs consume between 30pp and 60pp of energy."
+        "🛌 Resting restores 75pp of energy but cannot exceed 100pp.\n"
+        "👉 Jobs consume between 30pp and 60pp of energy. 🔋\n"
+        "⚠️ If energy drops below 0%, you can still stay in the game by using\n"
+        "   cocaine in the same month to regain energy. 🚨"
     )
             
 

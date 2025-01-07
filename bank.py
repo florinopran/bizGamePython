@@ -7,7 +7,7 @@ from displayOptBox import *
 # CREDIT (BANK)
 def do_bcredit(game):
     game.lAdviser.config(image=game.imgBankAdviser)    
-    maxim=max(3 * (game.netWorth),100)
+    maxim=max((1.1+game.con/100) * (game.netWorth),100)
     message=("Finance Adviser:\n"
             f"Bank will grant you a max credit of ${maxim:.2f}.\n"
             f"How much do you need from the bank?")      

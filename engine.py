@@ -10,22 +10,46 @@ import pyautogui
 class Engine():
     def __init__(self):
         pass
-
+    
     def timeline(self,game):
         # trece timpul
         game.changeStats("time", 1)
-        game.changeStats("energy",75) #adds 70pp to energy (capped at 100pp)
+
+        #update energy, if possible
+        if game.energy>0:
+            game.changeStats("energy",75) #adds 75pp to energy (capped at 100pp)
+        
+        #lose game
+        if game.energy<=0 or game.warning==3:
+            # if you start a month with 0 energy you lose the game
+            # if you had 3 cash warnings you lose the game
+            game.changeStats("gameOn",0)
+            message="General Adviser:\n\nYou lost the game, son!"
+            if game.energy<=0:
+                message+="\nYou've exhausted all your energy!"
+            if game.warning==3:
+                message+="\nYou ran out of cash!"
+            game.lAdviserBox.config(text=message)
+            game.lbalance.config(text="G A M E   O V E R")
+
+        if game.gameOn==1:
+            self.timeline_flow(game)
+
+    def timeline_flow(self,game):
         cashOut=0
         cashIn=0
-        #make sure the number of connections is at least 0
+        #make sure the number of connections is at least 0 
+        #TODO will not be necessary after i eliminate direct modification of variables in whole project
         if game.con<0:
             game.con=0
-        # incasare salariu
+
+        # job salary
         if game.job>0: 
             cashIn+=game.job
             game.jobSeniority+=1
             game.changeStats("energy",-game.jobEnergy)
-        # incasare dobanda pt depozitele preexistente
+
+        # bank interest - cash in
         if game.deposit>0:
             income_deposit=game.deposit*game.interest
             game.changeStats("deposit", income_deposit)
@@ -34,22 +58,22 @@ class Engine():
 
         # STOCK MARKET
         messageStockMarket=""
-        # shows if you dont't own anything
+        # shows if you don't own anything
         game.lnews.config(text=f"Stock Market Index = ${game.stockIndexMV:.2f}"\
                           f"\nExperts estimate a real value of ${game.stockIndexRV:.2f}") 
         # stock market trends
         # real value of assets (2 digits) => variation between 1.00% and 5.00%
-        realTrend=1+random.randint(100,int(game.stockNormalPerformance*10000))/10000 
+        realTrend=1+random.randint(-150,int(game.stockNormalPerformance*10000))/10000 
         game.stockIndexRV=game.stockIndexRV*realTrend
         print (f"Real Trend= {realTrend}")
         eventChance=random.randint(1,18)
         if eventChance==13: # Crash
-            crashValue=(random.randint(11,55))/100 # max 55%
+            crashValue=(random.randint(11,40))/100 # max 40%
             game.stockIndexMV=game.stockIndexMV*(1-crashValue)
             performance=crashValue
             messageStockMarket+=f"Huge crash on the market ({-performance*100:.2f}%)" #Event            
         elif eventChance==7: # Spike
-            spikeValue=(random.randint(11,55))/100 # max 55%
+            spikeValue=(random.randint(11,40))/100 # max 40%
             game.stockIndexMV=game.stockIndexMV*(1+spikeValue)
             performance=spikeValue
             messageStockMarket+=f"Huge Hype on the market ({performance*100:.2f}%)" #Event            
@@ -62,7 +86,9 @@ class Engine():
                 highest=game.stockNormalPerformance/2
                 highest=int(highest*1000)                             
                 randomPerformance=random.randint(lowest , highest)/1000 # pressure to go lower towards real value
-                performance=max(randomPerformance,-0.11) # ex. -2.75% (capped at -11%)
+                performance=max(randomPerformance,-0.13) # ex. -2.75% (capped at -11%)
+                if performance==-0.13:                    
+                    performance+=random.randint(100,3300)/100000 #to avoid the same value repeated occurrence +0.033)
                 print(f"Trend down: {performance} is between {lowest/1000} and {highest/1000}") 
             else:
                 # 5% + half of the gap
@@ -72,7 +98,9 @@ class Engine():
                 lowest=-game.stockNormalPerformance/2 
                 lowest=int(lowest*1000)                
                 randomPerformance=random.randint(lowest, highest)/1000  # pressure to go higher towards real value
-                performance=min(randomPerformance,0.11) # ex. +2.75%   (capped at +11%) 
+                performance=min(randomPerformance,0.13) # ex. +2.75%   (capped at +11%) 
+                if performance==0.13:                    
+                    performance-=random.randint(100,3300)/100000 #to avoid the same value repeated occurrence -0.033)
                 print(f"Trend up: {performance} is between {lowest/1000} and {highest/1000}")             
             game.stockIndexMV=game.stockIndexMV *(1+performance) # eg. * 1.0275
             messageStockMarket+=f"Market is calm ({performance*100:.2f}%)" #No event
@@ -175,14 +203,7 @@ class Engine():
         else:
             game.warning=0
 
-        if game.energy<1 or game.warning==3:
-            # nu poate sa functioneze, pentru ca vine dupa rest (deci energy=min 70)
-            game.changeStats("gameon",-1)
-            messagebox.showinfo ("General Adviser:",f"You lost the game!\n"
-                                            f"Your energy level is {game.energy}."
-                                            f"You cash warning is: {game.warning}/3."
-                                            f"What were you thinking?")
-            game.lbalance.config(text="G A M E   O V E R")
+
 
     def rand_biz(self,game): # randamentul afacerii
         # (1) Randamentul din afacere (variaza aleator intre -2.5% si +10%)

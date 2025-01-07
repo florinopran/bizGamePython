@@ -9,12 +9,15 @@ def initializeMenu(self, bank, biz, job, personal, stock, engine):
     self.lenergy=Label(text=f"Energy: {self.energy}", foreground="darkgreen", 
                         font=("Segoe UI", 8,"bold"), anchor="w")
     self.lenergy.place(x=170, y=30)
-    self.lcash=Label(text=f"Cash: {self.cash}", foreground="darkgreen", 
+    self.lcash=Label(text=f"Cash: {self.cash:.2f}", foreground="darkgreen", 
                         font=("Segoe UI", 8,"bold"), anchor="w")
     self.lcash.place(x=320, y=30)
+    self.lnetworth=Label(text=f"Net worth: {self.netWorth:.2f}", foreground="darkgreen", 
+                        font=("Segoe UI", 8,"bold"), anchor="w")
+    self.lnetworth.place(x=440, y=30)
     self.ltime=Label(text=f"Year {(self.time-1)//12+1}. Month {(self.time-1)%12+1}", 
                      foreground="darkgreen", font=("Segoe UI", 8,"bold"), anchor="w")
-    self.ltime.place(x=470, y=30)
+    self.ltime.place(x=620, y=30)
     
     # secondary labels (describing buttons)
     self.llaborFix=Label(text="🏢 LABOR", width=15, background="darkgrey",  

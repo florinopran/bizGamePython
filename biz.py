@@ -114,7 +114,7 @@ def do_bboost(game,engine):
         cost_boost_money = 0
         cost_boost_con = 0
         for i in range(game.biz + 1, boostToLevel + 1):
-            cost_boost_money += engine.biz_invest(i) * 1.0
+            cost_boost_money += engine.biz_invest(i) * 1.07
             # print(i,"...",cost_boost_money)
         cost_boost_con += boostToLevel * 10 * 1.3
 

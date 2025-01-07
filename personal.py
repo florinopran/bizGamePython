@@ -8,172 +8,174 @@ import random
 
 def do_brest(game, engine):
     #game.changeStats("energy",70) #moved in engine
+    game.lAdviserBox.config(text="")  #reset dialog box
+    hideYesNoEntry(game) #eliminate dialog box's options (yes/no/entry)
     engine.timeline(game)
     game.displayStats()
-        
-    def adviserHere():    
-        game.lAdviser.config(image=game.imgCallAdviserIcon)
-        game.lAdviserBox.config(text="Need help? \nMaybe you should call an advisor...")
-        def actionCallAdviser(game,response):
-            hideYesNoEntry(game)
-            if response=="yes":
-                game.lAdviser.config(image=game.imgAdvOld)
-                message="Adviser: "
-                if game.time<10 and game.job==0:
-                    message+="You should get a job (you'll lose energy)."
-                if game.job==0 and game.biz==0:
-                    message+="\nAlert: You have no job and own no business."
-                if game.cash<100:
-                    message+="\nAlert: You're dangerously low on cash."
+    if game.gameOn==1:    
+        def adviserHere():    
+            game.lAdviser.config(image=game.imgCallAdviserIcon)
+            game.lAdviserBox.config(text="Need help? \nMaybe you should call an advisor...")
+            def actionCallAdviser(game,response):
+                hideYesNoEntry(game)
+                if response=="yes":
+                    game.lAdviser.config(image=game.imgAdvOld)
+                    message="Adviser: "
+                    if game.time<10 and game.job==0:
+                        message+="You should get a job (you'll lose energy)."
+                    if game.job==0 and game.biz==0:
+                        message+="\nAlert: You have no job and own no business."
+                    if game.cash<100:
+                        message+="\nAlert: You're dangerously low on cash."
 
-                randomAdvice=random.randint(0,7)
-                message+="\n\nLet me give you a tip:"
-                
-                message+=constants.ADVISER_PEDIA["randomAdvice"][randomAdvice]   
+                    randomAdvice=random.randint(0,7)
+                    message+="\n\nLet me give you a tip:"
+                    
+                    message+=constants.ADVISER_PEDIA["randomAdvice"][randomAdvice]   
 
-                message+="\n\n💡If you need specific details, just type \"help\""
+                    message+="\n\n💡If you need specific details, just type \"help\""
+
+                    game.lAdviserBox.config(text=message)
+
+                    def distroybNormalize():
+                        if hasattr(game, 'bNormalize') and game.bNormalize:
+                            game.bNormalize.destroy()
+                            game.bNormalize = None
+                    def normalizeWindow():
+                        game.lAdviserBox.config(width=42,height=10)
+                        game.lAdviserBox.place(x=20,y=310)
+                        game.bentry.place(x=460, y=428)
+                        game.submit_bentry.place(x=460, y=468)
+                        distroybNormalize()
+                        hideYesNoEntry(game)
+                        
+
+                    def actionPedia(game,response):                    
+                        if response in constants.ADVISER_PEDIA:
+                            # extend dialog box
+                            game.lAdviserBox.tkraise()
+                            game.lAdviserBox.config(width=52, height=16)
+                            game.lAdviserBox.place(x=20,y=170)
+                            game.bentry.place(x=680, y=428)
+                            game.submit_bentry.place(x=680, y=468)
+                            message=constants.ADVISER_PEDIA[response]
+                            message+="\nIf I'm boring you, feel free to say bye."
+                            game.lAdviserBox.config(text=message)
+                            distroybNormalize()
+                            game.bNormalize = Button(image=game.xMark, borderwidth=0, highlightthickness=0,
+                                command=lambda: normalizeWindow())
+                            game.bNormalize.place(x=520, y=175)
+                        elif response == "bye":
+                            normalizeWindow()
+                            game.lAdviserBox.config(text="Business Adviser:\n Good luck!")
+                        
+                        else:  # Handle unrecognized response
+                            normalizeWindow()
+                            game.lAdviserBox.config(text="Adviser: Sorry! I do not understand.")                   
+                    activateEntry(game,actionPedia)  
+                else:
+                    game.lAdviserBox.config(text="As you wish...\n You can call your adviser tomorrow.")
+            activateYesNo(game,actionCallAdviser)
+
+        def girlfriendHere(): 
+            # set the message
+            if game.datingStatusLevel==4:
+                message=random.choice(
+                                    constants.RELATION_SOFT_DILEMA
+                                    )
+            elif game.datingStatusLevel==3:
+                message=random.choice(
+                                    constants.RELATION_SELF_DILEMA+
+                                    constants.RELATION_COMMITTED_DILEMA
+                                    )
+            elif game.datingStatusLevel==2:
+                message=random.choice(
+                                    constants.RELATION_SELF_DILEMA+
+                                    constants.RELATION_COMMITTED_DILEMA+
+                                    constants.RELATION_HEAVY_DILEMA
+                                    )
+            elif game.datingStatusLevel==1:
+                message=random.choice(
+                                    constants.RELATION_HEAVY_DILEMA
+                                    )
+            # set the image
+            if message in constants.RELATION_SELF_DILEMA:
+                theImage=game.imgGirlfriend5
+            else:
+                theImage=random.choice([
+                                    game.imgGirlfriend1,
+                                    game.imgGirlfriend2,
+                                    game.imgGirlfriend3,
+                                    game.imgGirlfriend4
+                                    ]) 
+            # show image
+            game.lAdviser.config(image=theImage)    
+            # show message                    
+            game.lAdviserBox.config(text=message)
+            def actionGirlfriendDilema(game,response):  #response doesn't matter                       
+                hideYesNoEntry(game)  
+
+                message=random.choice(constants.RELATION_EVENTS) # "Let's to something"
 
                 game.lAdviserBox.config(text=message)
-
-                def distroybNormalize():
-                    if hasattr(game, 'bNormalize') and game.bNormalize:
-                        game.bNormalize.destroy()
-                        game.bNormalize = None
-                def normalizeWindow():
-                    game.lAdviserBox.config(width=42,height=10)
-                    game.lAdviserBox.place(x=20,y=310)
-                    game.bentry.place(x=460, y=428)
-                    game.submit_bentry.place(x=460, y=468)
-                    distroybNormalize()
+                def actionGirlEvent(game,response):
                     hideYesNoEntry(game)
-                    
-
-                def actionPedia(game,response):                    
-                    if response in constants.ADVISER_PEDIA:
-                        # extend dialog box
-                        game.lAdviserBox.tkraise()
-                        game.lAdviserBox.config(width=52, height=16)
-                        game.lAdviserBox.place(x=20,y=170)
-                        game.bentry.place(x=680, y=428)
-                        game.submit_bentry.place(x=680, y=468)
-                        message=constants.ADVISER_PEDIA[response]
-                        message+="\nIf I'm boring you, feel free to say bye."
-                        game.lAdviserBox.config(text=message)
-                        distroybNormalize()
-                        game.bNormalize = Button(image=game.xMark, borderwidth=0, highlightthickness=0,
-                            command=lambda: normalizeWindow())
-                        game.bNormalize.place(x=520, y=175)
-                    elif response == "bye":
-                        normalizeWindow()
-                        game.lAdviserBox.config(text="Business Adviser:\n Good luck!")
-                    
-                    else:  # Handle unrecognized response
-                        normalizeWindow()
-                        game.lAdviserBox.config(text="Adviser: Sorry! I do not understand.")                   
-                activateEntry(game,actionPedia)  
-            else:
-                game.lAdviserBox.config(text="As you wish...\n You can call your adviser tomorrow.")
-        activateYesNo(game,actionCallAdviser)
-
-    def girlfriendHere(): 
-        # set the message
-        if game.datingStatusLevel==4:
-            message=random.choice(
-                                constants.RELATION_SOFT_DILEMA
-                                )
-        elif game.datingStatusLevel==3:
-            message=random.choice(
-                                constants.RELATION_SELF_DILEMA+
-                                constants.RELATION_COMMITTED_DILEMA
-                                )
-        elif game.datingStatusLevel==2:
-            message=random.choice(
-                                constants.RELATION_SELF_DILEMA+
-                                constants.RELATION_COMMITTED_DILEMA+
-                                constants.RELATION_HEAVY_DILEMA
-                                )
-        elif game.datingStatusLevel==1:
-            message=random.choice(
-                                  constants.RELATION_HEAVY_DILEMA
-                                )
-        # set the image
-        if message in constants.RELATION_SELF_DILEMA:
-            theImage=game.imgGirlfriend5
-        else:
-            theImage=random.choice([
-                                game.imgGirlfriend1,
-                                game.imgGirlfriend2,
-                                game.imgGirlfriend3,
-                                game.imgGirlfriend4
-                                ]) 
-        # show image
-        game.lAdviser.config(image=theImage)    
-        # show message                    
-        game.lAdviserBox.config(text=message)
-        def actionGirlfriendDilema(game,response):  #response doesn't matter                       
-            hideYesNoEntry(game)  
-
-            message=random.choice(constants.RELATION_EVENTS) # "Let's to something"
-
-            game.lAdviserBox.config(text=message)
-            def actionGirlEvent(game,response):
-                hideYesNoEntry(game)
-                if response=="no" and random.randint(1,3)==1: # might be bad for you
-                    game.lAdviserBox.config(text="Ohh! Maybe we should just break up!")
-                    def actionBreakup(game,response):
-                        hideYesNoEntry(game)
-                        if response=="yes":
+                    if response=="no" and random.randint(1,3)==1: # might be bad for you
+                        game.lAdviserBox.config(text="Ohh! Maybe we should just break up!")
+                        def actionBreakup(game,response):
                             hideYesNoEntry(game)
-                            game.changeStats("datingStatusLevel",-game.datingStatusLevel) #single
-                            game.lAdviserBox.config(text="You broke up!"
-                                    f"Now you're {game.STATUS_OPTIONS[game.datingStatusLevel]}") 
-                        else:
-                            increment=-1 # change in relationScore (she's still upset)
-                            game.changeStats("relationScore",increment)                            
-                            game.girlfriendName=""
-                            game.lAdviserBox.config(text="Still hanging on..."\
-                                        f"Relation score is {game.relationScore}({increment})")                                                      
-                    activateYesNo(game,actionBreakup)
-                elif response=="yes": # yes to the event
-                    increment=5
-                    game.changeStats("relationScore",increment)
-                    message=f"Sweeet! Love you baby!\n"\
-                        f"\nRelation score is {game.relationScore}({increment})"                    
-                    game.lAdviserBox.config(text=message)                    
-                    if (game.relationScore>(game.datingStatusLevel+2)*10 and
-                        random.randint(1,game.datingStatusLevel)==1 and
-                        game.datingStatusLevel<4):                    
-                        # she might want to go the the next level if:
-                        #   reached a certain relation score
-                        #   a random chance (less chance with higher level)
-                        #   not married yet.
-                        hideYesNoEntry(game)
-                        game.lAdviserBox.config(text="Maybe we should make the next step\n in our relationship...")
-                        def actionAdvanceRelation(game,response):
-                            hideYesNoEntry(game)                            
                             if response=="yes":
-                                game.changeStats("datingStatusLevel",1)
-                                increment=5
-                                game.changeStats("relationScore",increment)
-                                message="You made the next step:"\
-                                        f"\nNow you're {game.STATUS_OPTIONS[game.datingStatusLevel]}"                                        
-                            else: # you don't want to make the next step.
-                                increment=-7
-                                game.changeStats("relationScore",increment)  
-                                message="\nYou're not ready to make the next step."   
-                            message+=f"\nRelation Score is {game.relationScore} ({increment})"  
-                            game.lAdviserBox.config(text=message)                                                 
-                        activateYesNo(game,actionAdvanceRelation)
-            activateYesNo(game,actionGirlEvent)
-        activateEntry(game,actionGirlfriendDilema)
+                                hideYesNoEntry(game)
+                                game.changeStats("datingStatusLevel",-game.datingStatusLevel) #single
+                                game.lAdviserBox.config(text="You broke up!"
+                                        f"Now you're {game.STATUS_OPTIONS[game.datingStatusLevel]}") 
+                            else:
+                                increment=-1 # change in relationScore (she's still upset)
+                                game.changeStats("relationScore",increment)                            
+                                game.girlfriendName=""
+                                game.lAdviserBox.config(text="Still hanging on..."\
+                                            f"Relation score is {game.relationScore}({increment})")                                                      
+                        activateYesNo(game,actionBreakup)
+                    elif response=="yes": # yes to the event
+                        increment=5
+                        game.changeStats("relationScore",increment)
+                        message=f"Sweeet! Love you baby!\n"\
+                            f"\nRelation score is {game.relationScore}({increment})"                    
+                        game.lAdviserBox.config(text=message)                    
+                        if (game.relationScore>(game.datingStatusLevel+2)*10 and
+                            random.randint(1,game.datingStatusLevel)==1 and
+                            game.datingStatusLevel<4):                    
+                            # she might want to go the the next level if:
+                            #   reached a certain relation score
+                            #   a random chance (less chance with higher level)
+                            #   not married yet.
+                            hideYesNoEntry(game)
+                            game.lAdviserBox.config(text="Maybe we should make the next step\n in our relationship...")
+                            def actionAdvanceRelation(game,response):
+                                hideYesNoEntry(game)                            
+                                if response=="yes":
+                                    game.changeStats("datingStatusLevel",1)
+                                    increment=5
+                                    game.changeStats("relationScore",increment)
+                                    message="You made the next step:"\
+                                            f"\nNow you're {game.STATUS_OPTIONS[game.datingStatusLevel]}"                                        
+                                else: # you don't want to make the next step.
+                                    increment=-7
+                                    game.changeStats("relationScore",increment)  
+                                    message="\nYou're not ready to make the next step."   
+                                message+=f"\nRelation Score is {game.relationScore} ({increment})"  
+                                game.lAdviserBox.config(text=message)                                                 
+                            activateYesNo(game,actionAdvanceRelation)
+                activateYesNo(game,actionGirlEvent)
+            activateEntry(game,actionGirlfriendDilema)
 
-    randomChance=random.randint(1,2)
-    print(randomChance)
-    if game.datingStatusLevel>0 and game.datingStatusLevel<4 and randomChance==1:
-        print(f"-girlfriend")
-        girlfriendHere()
-    else:
-        adviserHere()
+        randomChance=random.randint(1,2)
+        print(randomChance)
+        if game.datingStatusLevel>0 and game.datingStatusLevel<4 and randomChance==1:
+            print(f"-girlfriend")
+            girlfriendHere()
+        elif random.randint(1,2)==1:
+            adviserHere()
 
 
 
@@ -282,9 +284,8 @@ def do_bclub(game):
                 game.lAdviserBox.config(text="Club Adviser: \nCool. Maybe next time!")
                 return
             # if yes:
-            game.lAdviserBox.config(text=f"Minimum bet is ${baseTicket}.\n"
-                                    f"Your actual networth is {game.netWorth}\n"
-                                    "How much do you want to bet?"
+            game.lAdviserBox.config(text=f"Minimum bet is ${baseTicket:.2f}."                                    
+                                    "\nHow much do you want to bet?"
                                     )
             def actionPlayPoker(game,betx):                
                 bet=int(betx)
@@ -309,8 +310,8 @@ def do_bclub(game):
                     game.lAdviserBox.config(text=
                                             f"Club Adviser\n"
                                             f"Cool game!\n" 
-                                            f"> You put on the table:    ${bet}\n"
-                                            f"> You take from the table: ${cashResult}\n"
+                                            f"> You put on the table:    ${bet:.2f}.\n"
+                                            f"> You take from the table: ${cashResult:.2f}.\n"
                                             f"> Friends={newFriends}.\n\n"
                                             "Play again?")   
                     def actionFinalResult(game,response):    

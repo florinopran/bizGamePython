@@ -1,4 +1,4 @@
-from tkinter import Button, Label, Entry
+from tkinter import *
 # from optBox import *
 
 
@@ -16,7 +16,7 @@ def initializeOptBox(self):
 
     # ENTRY DATA as an ANSWEAR TO ADVISERS
     # Create an Entry widget for user input
-    self.bentry = Entry(width=8, font=("Segoe UI", 8))
+    self.bentry = Entry(width=8, font=("Segoe UI", 8), text="")
     self.bentry.place_forget()
     # self.bentry.place(x=460, y=428)
 
@@ -25,45 +25,46 @@ def initializeOptBox(self):
     self.submit_bentry.place_forget()
     # self.submit_bentry.place(x=460, y=468)
 
-def activateYesNo(self, action):
-    hideYesNoEntry(self)
-    # self.opt=None
-    # action is the function from personal.py / biz.py eg.
-    self.boptYes.config(command=lambda: action(self,"yes")) 
-    self.boptNo.config(command=lambda: action(self,"no"))
-    self.boptYes.place(x=460, y=428)
-    self.boptNo.place(x=460, y=468)
+# def activateYesNo(self, action):
+#     hideYesNoEntry(self)
+#     # self.opt=None
+#     # action is the function from personal.py / biz.py eg.
+#     self.boptYes.config(command=lambda: action(self,"yes")) 
+#     self.boptNo.config(command=lambda: action(self,"no"))
+#     self.boptYes.place(x=460, y=428)
+#     self.boptNo.place(x=460, y=468)
 
-def activateOk(self, action):
-    hideYesNoEntry(self)
-    # self.opt=None
-    # action is the function from personal.py / biz.py eg.
-    self.boptYes.config(text="OK", command=lambda: action(self, "ok")) 
-    # self.boptNo.config(command=lambda: action(self,"no"))
-    self.boptYes.place(x=460, y=428)
-    # self.boptNo.place(x=460, y=468)
+# def activateOk(self, action):
+#     hideYesNoEntry(self)
+#     # self.opt=None
+#     # action is the function from personal.py / biz.py eg.
+#     self.boptYes.config(text="OK", command=lambda: action(self, "ok")) 
+#     # self.boptNo.config(command=lambda: action(self,"no"))
+#     self.boptYes.place(x=460, y=428)
+#     # self.boptNo.place(x=460, y=468)
 
 
 
-def activateEntry (self, action):
-    hideYesNoEntry(self)
-    # Make the Entry widget visible
-    self.bentry.place(x=460, y=428)
+# def activateEntry (self, action):
+#     hideYesNoEntry(self)
+#     # Make the Entry widget visible
+#     self.bentry.place(x=460, y=428)
     
-    # Bind the <Return> key to trigger the action
-    self.bentry.bind("<Return>", lambda event: action(self, self.bentry.get()))
+#     # Bind the <Return> key to trigger the action
+#     self.bentry.bind("<Return>", lambda event: action(self, self.bentry.get()))
     
-    # Configure the Submit button to trigger the action
-    self.submit_bentry.config(command=lambda: action(self, self.bentry.get()))
-    self.submit_bentry.place(x=460, y=468)
+#     # Configure the Submit button to trigger the action
+#     self.submit_bentry.config(command=lambda: action(self, self.bentry.get()))
+#     self.submit_bentry.place(x=460, y=468)
     
 
 
-def hideYesNoEntry(self):
-    self.boptYes.place_forget()
-    self.boptNo.place_forget()
-    self.bentry.place_forget()
-    self.submit_bentry.place_forget()
+# def hideYesNoEntry(self):
+#     self.boptYes.place_forget()
+#     self.boptNo.place_forget()
+#     self.bentry.place_forget()
+#     self.submit_bentry.place_forget()
+
 
 
 def submit_data(self):
@@ -111,6 +112,7 @@ def hideYesNoEntry(game):
     game.boptNo.place_forget()
     game.bentry.place_forget()
     game.submit_bentry.place_forget()
+    game.bentry.delete(0, END)
 
 
 def submit_data(game):

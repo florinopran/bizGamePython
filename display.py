@@ -8,8 +8,8 @@ import random
 # import os
 # from optBox import *
 # import optBox
-
-from displayStats import DisplayStats
+#TODO should change name for DisplayStats(also have a function with same name)
+from displayStats import DisplayStats 
 import displayAnimations
 import displayBoxes
 import displayMenu
@@ -61,12 +61,13 @@ class Playground(DisplayStats):
     def displayStats(self):        
         
         self.lenergy.config(text=f"ENERGY:{self.energy}")
-        self.lcash.config(text=f"CASH:${self.cash}")        
+        self.lcash.config(text=f"CASH:${self.cash:.0f}") 
+        self.lnetworth.config(text=f"Net worth:${self.netWorth:.0f}")       
         self.ltime.config(text=f"Year {(self.time-1)//12+1}. Month {(self.time-1)%12+1}")
-        self.ljob.config(text=f"Job:${self.job}")
+        self.ljob.config(text=f"Job:${self.job:.0f}")
         self.lstock.config(text=f"Stocks:{self.stock}")
-        self.lcredit.config(text=f"Credits:${self.credit}")
-        self.ldeposit.config(text=f"Deposits:${self.deposit}")
+        self.lcredit.config(text=f"Credits:${self.credit:.0f}")
+        self.ldeposit.config(text=f"Deposits:${self.deposit:.0f}")
         self.lbiz.config(text=f"LEVEL:{self.biz}")
         self.lcon.config(text=f"Connexions:{self.con}")
         self.labelskills.config(text=f"💰Biz  Skill={self.bizSkill}\n" 
@@ -82,23 +83,25 @@ class Playground(DisplayStats):
 
     #TODO aceasta este noua functie de schimbare a valorilor
     def changeStats(self, stat, value):
-        if self.gameon==1:
-            value=int(value)
-            if stat=="time":
-                self.time+=value
+        value=int(value)
+
+        if stat=="gameOn":
+            self.gameOn=value
+        
+        if self.gameOn==0:
+            value=0 # no more updates
+
+        if stat=="time":
+            self.time+=value
+            
+        if stat=="energy":
+            self.energy+=value
+            if self.energy>100:
+                self.energy=100
+            if self.energy<=0:
+                print("No more energy. Try cocaine!")
+                self.energy=0
                 
-            if stat=="energy":
-                self.energy+=value
-                if self.gameon==0:
-                    self.energy=0
-                    print("You retired.")
-                if self.energy>100:
-                    self.energy=100
-                if self.energy<=0:
-                    print("You have no more energy\n"
-                                          "You lost the game!")
-                    self.energy=0
-                    self.gameon=0
 
         if stat == "cash":
             self.cash += value
