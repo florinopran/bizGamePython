@@ -3,16 +3,16 @@ from tkinter import Label, Button
 def initializeMenu(self, bank, biz, job, personal, stock, engine): 
 
     # main labels (general stats)
-    self.lstats=Label(text="BizGame", width=10, background="lightgrey", foreground="#4F4F4F",
-                        font=("Segoe UI", 11, "bold"))
-    self.lstats.place(x=20, y=30)
+#     self.lstats=Label(text="BizGame", width=10, background="lightgrey", foreground="#4F4F4F",
+#                         font=("Segoe UI", 11, "bold"))
+#     self.lstats.place(x=20, y=30)
     self.lenergy=Label(text=f"Energy: {self.energy}", foreground="darkgreen", 
                         font=("Segoe UI", 8,"bold"), anchor="w")
     self.lenergy.place(x=170, y=30)
-    self.lcash=Label(text=f"Cash: {self.cash:.2f}", foreground="darkgreen", 
+    self.lcash=Label(text=f"Cash: ${self.cash:.0f}", foreground="darkgreen", 
                         font=("Segoe UI", 8,"bold"), anchor="w")
     self.lcash.place(x=320, y=30)
-    self.lnetworth=Label(text=f"Net worth: {self.netWorth:.2f}", foreground="darkgreen", 
+    self.lnetworth=Label(text=f"Net worth: ${self.netWorth:.0f}", foreground="darkgreen", 
                         font=("Segoe UI", 8,"bold"), anchor="w")
     self.lnetworth.place(x=440, y=30)
     self.ltime=Label(text=f"Year {(self.time-1)//12+1}. Month {(self.time-1)%12+1}", 
@@ -154,7 +154,7 @@ def initializeMenu(self, bank, biz, job, personal, stock, engine):
     self.labelbgamble=Label(text=" 5⚡", width=6, background="lightgreen", foreground="darkred")   
     self.labelbgamble.place(x=620,y=220) 
     self.bgamble = Button(text="Gamble", width=8, font=("Segoe UI", 8),
-                            command=lambda: personal.do_bgamble(self))
+                            command=lambda: personal.do_bgamble(self,engine))
     self.bgamble.place(x=680, y=220)
 
     self.labelbclub=Label(text="10⚡", width=6, background="lightgreen", foreground="darkred")   

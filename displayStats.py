@@ -18,7 +18,7 @@ class DisplayStats():
         self.warning = 0
         self.bizSkill = 1
         self.scamSkill = 1
-        self.socialSkill = 1 
+        self.socialSkill = 100 
         self.EXP_MAINTENANCE    =[600,750,1000,1200,1500,750]
         self.EXP_NETWORKING     =[ 50, 65,130,150, 300,100]
         self.EXP_MEDICAL        =[ 50, 75,150,175, 200,100]

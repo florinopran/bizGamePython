@@ -5,7 +5,8 @@ from displayOptBox import *
 
 # INVEST (STOCK)
 def do_binvest(game):
-    game.lAdviser.config(image=game.imgBroker)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.brokerAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.stockEnvironment)     
     game.lAdviserBox.config(text="Warren Broker:\n"\
                                 f"\nIndex value = {game.stockIndexMV:.2f}"
                                 f"\nReal value (estimated by experts) = {game.stockIndexRV:.2f}"
@@ -32,7 +33,9 @@ def do_binvest(game):
 
 # SELL (STOCK)
 def do_bsell(game):
-    game.lAdviser.config(image=game.imgBroker)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.brokerAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.stockEnvironment)
+    
     game.lAdviserBox.config(text=("Warren Broker:\n"
                                     "\nHow many shares do you want to sell?.\n ")) 
     def actionSell(game, shares):

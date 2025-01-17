@@ -6,7 +6,9 @@ import random
 
 
 def do_bstart(game, engine):
-    game.lAdviser.config(image=game.imgBizAdviser)
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.businessAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessEnvironment)    
     bool = True # only the first reason to deny will be displayed.   
     message="Business Adviser: \n"
     if game.biz > 0:
@@ -34,7 +36,9 @@ def do_bstart(game, engine):
 
 
 def do_bexpand(game, engine):
-    game.lAdviser.config(image=game.imgBizAdviser)
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.businessAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessEnvironment)
     expandon = True
     messageSuccess="Business Adviser:"
     success=0
@@ -103,7 +107,8 @@ def do_bexpand(game, engine):
 
 def do_bboost(game,engine):
     hideYesNoEntry(game)
-    game.lAdviser.config(image=game.imgBizAdviser)    
+    game.canvasContainer.itemconfig(game.adviserC, image=game.businessAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessEnvironment)        
     game.lAdviserBox.config(text=("Business Adviser: \n"
                                   "What level do you want to boost your business at?\n "
                                   "Keep in mind that it will be 30% more expensive!\n"))
@@ -149,7 +154,8 @@ def do_bboost(game,engine):
 
 def do_bscam(game,engine):
     hideYesNoEntry(game)
-    game.lAdviser.config(image=game.imgScamAdviser)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.scamAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessEnvironment)
     message=("Con Artist: \n"
              "You're a shark surrounded by minnows, my friend. \n"
              "Let me show you how sharks thrive.\n"
@@ -223,8 +229,10 @@ def do_bscam(game,engine):
 
 def do_bexit(game,engine):    
     hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.businessAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessEnvironment)
     soldBusiness=0 # keeps the value of transaction. if 0, there is no transaction
-    game.lAdviser.config(image=game.imgBizAdviser)    
+      
     
     game.changeStats("energy", -20) # Losing energy 
 
@@ -307,7 +315,8 @@ def do_bexit(game,engine):
 
 def do_btrain(game,engine):    
     hideYesNoEntry(game)
-    game.lAdviser.config(image=game.imgBizAdviser) 
+    game.canvasContainer.itemconfig(game.adviserC, image=game.businessAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessEnvironment) 
     #training cost
     cost=100+(game.bizSkill**2)*100
 

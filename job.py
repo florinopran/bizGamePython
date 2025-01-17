@@ -6,7 +6,9 @@ import random
 
 
 def do_bhire(game):
-    game.lAdviser.config(image=game.imgAdvJob)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.jobAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.jobEnvironment) 
+    
     hideYesNoEntry(game)    
        
     def actionHire(game, opt):
@@ -84,6 +86,8 @@ def do_bhire(game):
 
 # RESIGN (JOB)
 def do_bresign(game):
+    game.canvasContainer.itemconfig(game.adviserC, image=game.jobAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.jobEnvironment) 
     def actionResign(game, opt):
         hideYesNoEntry(game)
         message="Personal Recruiter Smith:\n"

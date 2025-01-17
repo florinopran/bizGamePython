@@ -6,7 +6,8 @@ from displayOptBox import *
 
 # CREDIT (BANK)
 def do_bcredit(game):
-    game.lAdviser.config(image=game.imgBankAdviser)    
+    game.canvasContainer.itemconfig(game.adviserC, image=game.bankAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bankEnvironment)         
     maxim=max((1.1+game.con/100) * (game.netWorth),100)
     message=("Finance Adviser:\n"
             f"Bank will grant you a max credit of ${maxim:.2f}.\n"
@@ -31,7 +32,8 @@ def do_bcredit(game):
 
 # DEPOSIT (BANK)
 def do_bdeposit(game):
-    game.lAdviser.config(image=game.imgBankAdviser) 
+    game.canvasContainer.itemconfig(game.adviserC, image=game.bankAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bankEnvironment) 
     message=("Financial Adviser:\n"
              "How much money do you want to deposit?")
     game.lAdviserBox.config(text=message)
@@ -54,7 +56,8 @@ def do_bdeposit(game):
 
 # WITHDRAW (BANK)
 def do_bwithdraw(game):
-    game.lAdviser.config(image=game.imgBankAdviser) 
+    game.canvasContainer.itemconfig(game.adviserC, image=game.bankAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bankEnvironment)  
     message=("Financial Adviser:\n"
             "How much money do you want to withdraw?")
     game.lAdviserBox.config(text=message)

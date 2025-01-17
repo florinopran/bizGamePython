@@ -7,6 +7,9 @@ import random
 
 
 def do_brest(game, engine):
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bedroomEnvironment)
     #game.changeStats("energy",70) #moved in engine
     game.lAdviserBox.config(text="")  #reset dialog box
     hideYesNoEntry(game) #eliminate dialog box's options (yes/no/entry)
@@ -179,8 +182,10 @@ def do_brest(game, engine):
 
 
 
-def do_bgamble(game):
-    game.lAdviser.config(image=game.imgAdvDealer)
+def do_bgamble(game, engine):
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.dealerAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.casinoEnvironment)    
     game.lAdviserBox.config(text="Club Adviser:\n"
                                 "Welcome to the club, mate!\n"
                                 "How much money do you want to bring to the table?")
@@ -271,7 +276,9 @@ def do_bclub(game):
     # you party (and get connections)
     # you have a chance to play poker for money
     # you have a chance to meet a girl
-    game.lAdviser.config(image=game.imgAdvDealer)
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.dealerAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.clubEnvironment)  
 
     def poker():           
         game.lAdviserBox.config(text="Club Adviser: \n"
@@ -328,6 +335,8 @@ def do_bclub(game):
     
 
     def meetGirl():
+        game.canvasContainer.itemconfig(game.adviserC, image=game.imgGirlfriend1)
+        game.canvasContainer.itemconfig(game.environmentC, image=game.clubEnvironment)  
             # GET A GIRL IN THE CLUB
         # self.STATUSOPTIONS :
         #     "single", "dating a college girl", "dating a lady",
@@ -428,7 +437,9 @@ def do_bclub(game):
 
 
 def do_bcharity(game):
-    game.lAdviser.config(image=game.imgAdvCharityLady)    
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.charityLadyAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.charityEnvironment)      
     castig_con=0   
     charityOn=True
     message="Charity Adviser:\n"     
@@ -486,11 +497,14 @@ def do_bcharity(game):
 
 def do_bcocaine(game):
     hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.drugDealerAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.backstreetEnvironment)
     #cost of cocaine is game.cocaineMin, but not less then % of your cash money
     # % is determined by game.cocainePP * cash
     # both game.cocaineMin and game.cocainePP are growing 
+
     cocaineCost=max(game.cocaineMin,game.cocainePP*game.cash)    
-    game.lAdviser.config(image=game.imgAdvDealer)
+    
     message=("Heinous Dealer:\n"
             "Hei mate! Want some cocaine?\n")  
     if game.cash<cocaineCost:   
@@ -566,7 +580,10 @@ def do_bcocaine(game):
 
 
 def do_btrain(game, engine): #socialize
-    game.lAdviser.config(image=game.imgAdvYoungGirl)
+    # game.lAdviser.config(image=game.imgAdvYoungGirl)
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.youngGirlAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.socializeEnvironment)
     game.lAdviserBox.config(text="Personal Adviser Kate:"
                                 "\nReady to flex your brain, booze your confidence, "
                                 "\nand sprint like it’s no tomorrow?"
@@ -611,7 +628,9 @@ def do_btrain(game, engine): #socialize
 
 # GAME OPTIONS (RETIRE / VACATION)
 def do_bretire(game, engine):
-    game.lAdviser.config(image=game.imgAdvYoungGirl)
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessAdviser)
     game.lAdviserBox.config(text=(
                         "Personal Adviser?\n"
                         "Are you sure you want to retire?"))
@@ -631,7 +650,9 @@ def do_bretire(game, engine):
     activateYesNo(game,actionRetire)
 
 def do_bvacation(game, engine):
-    game.lAdviser.config(image=game.imgAdvYoungGirl)
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.businessAdviser)
     game.lAdviserBox.config(text=(
                         "Personal Adviser?\n"
                         "Need a 2 week vacation?"))

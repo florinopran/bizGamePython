@@ -29,7 +29,7 @@ class Playground(DisplayStats):
         self.playground=Tk()        
         self.playground.geometry("1000x800")
         self.playground.config(bg="lightgrey")
-        self.playground.title("BizGame - V03") 
+        self.playground.title("BizAdviser Beta V03.8.2") 
 
         self.testVar=1
         # STATS         
