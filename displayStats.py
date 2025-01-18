@@ -4,10 +4,10 @@ class DisplayStats():
         # Initialize all game-related stats
         self.time = 1
         self.energy = 100
-        self.cash = 100000000
+        self.cash = 100
         self.job = 0        
         self.credit = 0
-        self.deposit = 200000000
+        self.deposit = 200
         self.biz = 0
         self.con = 1
         self.randant = 0
@@ -18,7 +18,7 @@ class DisplayStats():
         self.warning = 0
         self.bizSkill = 1
         self.scamSkill = 1
-        self.socialSkill = 100 
+        self.socialSkill = 1 
         self.EXP_MAINTENANCE    =[600,750,1000,1200,1500,750]
         self.EXP_NETWORKING     =[ 50, 65,130,150, 300,100]
         self.EXP_MEDICAL        =[ 50, 75,150,175, 200,100]
