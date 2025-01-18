@@ -137,40 +137,109 @@ class Playground(DisplayStats):
         if stat=="girlfriendName":
             self.girlfriendName=random.choice(constants.GIRLFRIEND_NAMES)
 
-        if stat=="relationScore":
+        if stat=="relationScore": # not important
             self.relationScore+=value   
             self.adjustGirlfriendFeelings()  
                                    
         
-        if stat=="datingStatusLevel":            
-            if self.datingStatusLevel==0 and value==1: # new girlfriend
+        if stat=="datingStatusLevel": # important 
+            def becomeSingle():
+                self.datingStatusLevel=0
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status to single
+                self.girlfriendName="" # no more girlfriend
+                self.relationScore=0  # no relation       
+                self.girlfriendFeelings="Single and ready to mingle😎"                
+            def newGirlfriend():
+                self.datingStatusLevel+=value #change dating status level  
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status eg. dating a college girl
                 self.girlfriendName=random.choice(constants.GIRLFRIEND_NAMES)
-                self.relationScore=11
-                self.girlfriendFeelings=self.RELATION_BENCHMARKS[10]
-            #make the change                
-            self.datingStatusLevel+=value #change dating status level            
-            self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status
+                self.relationScore=11 # new relation
+                self.girlfriendFeelings=self.RELATION_BENCHMARKS[10] 
+            def downgradeRelation():
+                self.datingStatusLevel+=value #downgrade dating status level  
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status eg. dating a college girl
+                # self.grilfriendName   = no change
+                # self.relationScore    = no change
+                # self.girlfriendFeelings modified from relation score 
+            def upgradeRelation():
+                self.datingStatusLevel+=value #upgrade dating status level  
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status eg. dating a college girl
+                # self.grilfriendName   = no change
+                # self.relationScore    = no change
+                # self.girlfriendFeelings modified from relation score 
+            def divorce():
+                self.datingStatusLevel=5 #downgrade dating status level  
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status to divorced
+                self.girlfriendName   = ""
+                self.relationScore    = 0
+                self.girlfriendFeelings = "You feel kind of bitter."
+                #divorce (-10.000 - 0.5 *netWorth)    
+                self.credit+=10000 + max(self.netWorth*0.5 , 1) # not less then 10.001 
+            def engage():
+                self.datingStatusLevel=3 # reach engagement level  
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status eg. dating a college girl
+                # self.grilfriendName   = no change
+                # self.relationScore    = no change
+                self.girlfriendFeelings = "You feel kind of bitter."
+                self.credit+=10000 #engagement ring
+            def marry():
+                self.datingStatusLevel=4 # marry level  
+                self.status=self.STATUS_OPTIONS[self.datingStatusLevel] #change status eg. dating a college girl
+                self.grilfriendName   = ""
+                self.relationScore    = 0
+                self.girlfriendFeelings = "You feel kind of bitter."                
+                self.credit+=10000 + self.netWorth*0.1 #wedding ($10.000+0.1*netWorth)
+            
+            modifyOnce=0
+            # New girlfriend? (from single)                    
+            if self.datingStatusLevel==0 and value==1 and modifyOnce==0: 
+                modifyOnce=1
+                newGirlfriend()  
+            
+            # Upgrade girlfriend relation? (from 1)                    
+            if self.datingStatusLevel==1 and value==1 and modifyOnce==0: # advance, but not engage 
+                modifyOnce=1
+                upgradeRelation()  
+            
+            # New girlfriend? (from divorced)              
+            if self.datingStatusLevel==5 and value==1 and modifyOnce==0: 
+                modifyOnce=1
+                self.datingStatusLevel=0 # start all over again (from single)
+                newGirlfriend()  
+
+            #break up (but not married <4) => become single
+            elif self.datingStatusLevel>0 and self.datingStatusLevel<4 and\
+                  self.datingStatusLevel==-value and modifyOnce==0:     
+                modifyOnce=1
+                becomeSingle()   
+            
+            #break up (divorce) => become single
+            elif self.datingStatusLevel>0 and self.datingStatusLevel==4 and\
+                  self.datingStatusLevel==-value and modifyOnce==0:   
+                modifyOnce=1  
+                divorce() 
+
+            #downgrade with 1 level (but not married <4) => don't become single
+            elif self.datingStatusLevel>0 and self.datingStatusLevel<4 and \
+                    value==-1 and modifyOnce==0:
+                modifyOnce=1
+                downgradeRelation()                             
+                
+            #Old girlfriend (upgrade/downgrade)
+            if self.datingStatusLevel==2 and value==1 and modifyOnce==0: #engagement
+                modifyOnce=1
+                engage()
+
+            if self.datingStatusLevel==3 and value==1 and modifyOnce==0: #marry
+                modifyOnce=1
+                marry()                      
+            
+            # change in connections (only if value!=0)     
             if value>0: #increase connections due to relation
                 self.con=int(self.con*self.IMPACT_NETWORKING[self.datingStatusLevel])
-            else: #decrease connections due to breakup
+            if value<0: #decrease connections due to breakup
                 self.con=int(self.con/self.IMPACT_NETWORKING[self.datingStatusLevel])
 
-            #reached the engagement level
-            if self.datingStatusLevel==3 and value>0: #engagement ring ($10.000) - on credit
-                self.credit+=10000
-            #reached the married level
-            if self.datingStatusLevel==4 and value>0: #wedding ($10.000+0.1*netWorth)
-                self.credit+=10000 + self.netWorth*0.1
-            #reached the single status
-            if self.datingStatusLevel==0:
-                self.girlfriendName="" #you have no girlfriend
-                self.girlfriendFeelings=""
-                self.relationScore=0
-            #reached the divorce level
-            if self.datingStatusLevel==5: #divorce (-10.000 - 0.5 *netWorth)    
-                self.credit+=10000 + max(self.netWorth*0.5 , 1) # not less then 10.001 
-                self.girlfriendFeelings="You feel kind of bitter." 
-                self.relationScore=0
         self.displayStats() #display it        
             
 

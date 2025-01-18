@@ -4,10 +4,10 @@ class DisplayStats():
         # Initialize all game-related stats
         self.time = 1
         self.energy = 100
-        self.cash = 100
+        self.cash = 100000000
         self.job = 0        
         self.credit = 0
-        self.deposit = 200
+        self.deposit = 200000000
         self.biz = 0
         self.con = 1
         self.randant = 0

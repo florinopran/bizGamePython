@@ -9,20 +9,20 @@ import random
 def do_brest(game, engine):
     hideYesNoEntry(game)
     game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
-    game.canvasContainer.itemconfig(game.environmentC, image=game.bedroomEnvironment)
-    #game.changeStats("energy",70) #moved in engine
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bedroomEnvironment)    
     game.lAdviserBox.config(text="")  #reset dialog box
     hideYesNoEntry(game) #eliminate dialog box's options (yes/no/entry)
     engine.timeline(game)
     game.displayStats()
-    if game.gameOn==1:    
+    if game.gameOn==1:  
+
         def adviserHere():    
-            game.lAdviser.config(image=game.imgCallAdviserIcon)
+            game.canvasContainer.itemconfig(game.adviserC, image=game.callAdviser)
             game.lAdviserBox.config(text="Need help? \nMaybe you should call an advisor...")
             def actionCallAdviser(game,response):
                 hideYesNoEntry(game)
                 if response=="yes":
-                    game.lAdviser.config(image=game.imgAdvOld)
+                    game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
                     message="Adviser: "
                     if game.time<10 and game.job==0:
                         message+="You should get a job (you'll lose energy)."
@@ -112,7 +112,7 @@ def do_brest(game, engine):
                                     game.imgGirlfriend4
                                     ]) 
             # show image
-            game.lAdviser.config(image=theImage)    
+            game.canvasContainer.itemconfig(game.adviserC, image=theImage)    
             # show message                    
             game.lAdviserBox.config(text=message)
             def actionGirlfriendDilema(game,response):  #response doesn't matter                       
@@ -133,14 +133,14 @@ def do_brest(game, engine):
                                 game.lAdviserBox.config(text="You broke up!"
                                         f"Now you're {game.STATUS_OPTIONS[game.datingStatusLevel]}") 
                             else:
-                                increment=-1 # change in relationScore (she's still upset)
+                                increment=-3 # change in relationScore (she's still upset)
                                 game.changeStats("relationScore",increment)                            
                                 game.girlfriendName=""
                                 game.lAdviserBox.config(text="Still hanging on..."\
                                             f"Relation score is {game.relationScore}({increment})")                                                      
                         activateYesNo(game,actionBreakup)
                     elif response=="yes": # yes to the event
-                        increment=5
+                        increment=2
                         game.changeStats("relationScore",increment)
                         message=f"Sweeet! Love you baby!\n"\
                             f"\nRelation score is {game.relationScore}({increment})"                    
@@ -334,9 +334,7 @@ def do_bclub(game):
     # end of poker() function
     
 
-    def meetGirl():
-        game.canvasContainer.itemconfig(game.adviserC, image=game.imgGirlfriend1)
-        game.canvasContainer.itemconfig(game.environmentC, image=game.clubEnvironment)  
+    def meetGirl():         
             # GET A GIRL IN THE CLUB
         # self.STATUSOPTIONS :
         #     "single", "dating a college girl", "dating a lady",
@@ -344,6 +342,8 @@ def do_bclub(game):
         # self.status = self.STATUSOPTIONS[self.datingStatusLevel]
         if random.randint(1,2)==1 and game.socialSkill>=5 and game.datingStatusLevel<=1:                        
             #u're single (0) or dating a college girl (1) => upgrade possible ( to a lady (2) )
+            game.canvasContainer.itemconfig(game.adviserC, image=game.imgGirlfriend1)
+            game.canvasContainer.itemconfig(game.environmentC, image=game.clubEnvironment) 
             game.lAdviserBox.config(text=(
                 "Dating Adviser: "
                 "\nSee that beautiful girl in the corner?"
@@ -352,15 +352,17 @@ def do_bclub(game):
                 ))
             def actionGetGirl(game,response):
                 hideYesNoEntry(game)
-                if response=="yes":                
-                    if random.randint(0,game.socialSkill)>game.datingStatusLevel*30+10:
+                if response=="yes":  
+                    chancesWithTheGirl =  random.randint(0,game.socialSkill)           
+                    print (chancesWithTheGirl)
+                    if chancesWithTheGirl>game.datingStatusLevel*30+20 and random.randint(1,2)==1:                        
                         game.lAdviserBox.config(text="Dating Adviser:\nYou got the girl!")                            
                         #upgrade to next level
                         def actionUpgradeStatus(game,response):
                             hideYesNoEntry(game)
                             game.changeStats("datingStatusLevel",1) # change status and the rest 
-                            game.changeStats("credit",100)                            
-                            game.labelGoofyMan.config(image=game.imgCouple)
+                            game.changeStats("credit",100) 
+                            game.canvasContainer.itemconfig(game.personaC, image=game.personaCouple)  
                             game.lAdviserBox.config(text=(
                                 "Dating Adviser:"
                                 "\nYou got the girl!"
@@ -369,7 +371,53 @@ def do_bclub(game):
                                 f"\nand have higher monthly costs."
                             ))
                             game.displayStats()
-                        activateOk(game,actionUpgradeStatus)
+                        # single/divorced => might get into a relation
+                        if game.datingStatusLevel==0 or game.datingStatusLevel==5: 
+                            activateOk(game,actionUpgradeStatus)
+                        else: 
+                            effectOnRelation=random.randint(1,7)
+                            if effectOnRelation in [1,2,3,4]: # relationScore decreased
+                                game.lAdviserBox.config(text=
+                                            f"You slept with her, but {game.girlfriendName} suspects something."
+                                            f"\nRelation score decreased to {game.relationScore}(-3)"
+                                            f"\n Your social skill improved to {game.socialSkill}(+3)"
+                                                    )
+                                game.changeStats("relationScore",-3)
+                                game.changeStats("socialSkill",3)
+                            elif effectOnRelation==5: # relationScore decreased
+                                game.lAdviserBox.config(text=
+                                            f"You slept with her, but {game.girlfriendName} found out."
+                                            f"\nThere was a big fight, but she forgave you!"
+                                            f"\nRelation score decreased to {game.relationScore}(-7)"
+                                            f"\n Your social skill improved to {game.socialSkill}(+3)"
+                                                    )
+                                game.changeStats("relationScore",-7)
+                                game.changeStats("socialSkill",3)
+                            elif effectOnRelation==6 and game.datingStatusLevel<4: # relationScore decreased
+                                game.lAdviserBox.config(text=
+                                            f"You slept with her, but returned to your unsuspicious partner.."
+                                            f"\nRelation score decreased to {game.relationScore}(-1)"                                        
+                                            f"\n Your social skill improved to {game.socialSkill}(+3)"                            
+                                                    )
+                                game.changeStats("relationScore",-1)
+                                game.changeStats("socialSkill",3)
+                            elif effectOnRelation==7 and game.datingStatusLevel<4:   # become single
+                                game.lAdviserBox.config(text=
+                                            "You slept with her."
+                                            f"\n{game.girlfriendName} knows! She dumped your ass!" 
+                                            f"\nStill... your social skill increased to {game.socialSkill}(+3)"
+                                                        )
+                                game.changeStats("datingStatusLevel",-game.datingStatusLevel)
+                                game.changeStats("socialSkill",3)                                
+                            elif effectOnRelation==7 and game.datingStatusLevel==4:
+                                game.lAdviserBox.config(text=                                            
+                                            f"\n{game.girlfriendName} divorced you!" 
+                                            f"\nStill... your social skill increased to {game.socialSkill}(+3)"
+                                                        )
+                                game.changeStats("datingStatusLevel",-game.datingStatusLevel)
+                                game.changeStats("socialSkill",3) 
+
+
                     else:
                         game.lAdviserBox.config(text="Dating Adviser:\n Ouch! Harsh rejection!😒")
                 else:
