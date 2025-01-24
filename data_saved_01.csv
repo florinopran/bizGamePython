@@ -1,0 +1,83 @@
+---------------------------------------------------- 
+### TIME & ENERGY
+---------------------------------------------------- 
+time = 8
+energy = 55
+    
+---------------------------------------------------- 
+### MAIN PAR regarding MONEY
+---------------------------------------------------- 
+cash = 2200
+credit = 0
+deposit = 228
+
+----------------------------------------------------     
+### MAIN PAR related to JOB  
+----------------------------------------------------   
+job = 1000
+# time worked (updated in engine)
+jobSeniority = 7
+# moment you asked for an offer (update in job, based on self.time)
+jobLastOffer = 1
+# if you resign, you keep your job salary level (updated in job)
+jobSalaryLevel = 1000
+# job energy consumption (may vary between 30pp and 60pp)  
+jobEnergy = 45
+
+---------------------------------------------------- 
+### MAIN PAR related to BUSINESS     
+---------------------------------------------------- 
+biz = 0
+con = 1
+randant = 0
+bizval = 0
+
+---------------------------------------------------- 
+### GAME STATUS
+---------------------------------------------------- 
+gameOn = 1
+# problem with cash
+warning = 0
+
+---------------------------------------------------- 
+### PAR related to cocaine
+---------------------------------------------------- 
+cocainePP = 0.1
+cocaineMin = 500
+
+---------------------------------------------------- 
+### PAR related to SPECIAL SKILLS  
+----------------------------------------------------   
+bizSkill = 1
+scamSkill = 1
+socialSkill = 100
+
+
+---------------------------------------------------- 
+### PAR related to BANKS (credits/deposits)
+---------------------------------------------------- 
+interest = 0.02
+
+
+---------------------------------------------------- 
+### PAR related to INVESTMENTS
+---------------------------------------------------- 
+# Total investition (shares)
+stock = 0
+# equal to self.stock * value when bought
+stockTotalInvestment = 0
+# stock index real value (how much it should be) - updated in engine   
+stockIndexRV = 105.64935544274715
+# stock index market value (how much currently is) - updated in engine  
+stockIndexMV = 106.62008109965848
+# stock performance (it's actually a random -1 to 5%)
+stockNormalPerformance = 0.05
+
+
+---------------------------------------------------- 
+### PAR related to RELATIONS
+----------------------------------------------------
+girlfriendName = None
+girlfriendFeelings = None
+datingStatusLevel = 0
+relationScore = 0
