@@ -303,7 +303,7 @@ def do_bclub(game):
                     pokerOdds+=5*game.scamSkill # 1 scamSkill => 5% eg. 10(scamSkill)=>+50%
                     cashResult=bet*(pokerOdds/100) #includes bet. 0=lost all.
                     if game.con<=40:
-                        newFriends=random.randint(-1,3)
+                        newFriends=random.randint(-1,2)
                     else:
                         newFriends=0
                     game.changeStats("con", newFriends)
@@ -725,6 +725,15 @@ def do_bsave(game,engine):
             r= par + " = " + str(getattr(game,par))+"\n"
         file2.write(r) # write each line
     file2.close()
+    # SAVED
+    # DISPLAY THE RESULT
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bedroomEnvironment)
+    game.lAdviserBox.config(text="Personal Adviser:"
+                                "\nYou saved your progress!"
+                                "\nKeep up the good job!"
+                                )   
 
 def do_bload(game,engine):
         # copy data from saved file
@@ -745,4 +754,16 @@ def do_bload(game,engine):
             setattr(game,par,parValue)
             game.displayStats()
     file1.close() 
+    # LOADED
+    # DISPLAY THE RESULT
+    hideYesNoEntry(game)
+    game.canvasContainer.itemconfig(game.adviserC, image=game.oldManAdviser)
+    game.canvasContainer.itemconfig(game.environmentC, image=game.bedroomEnvironment)
+    game.lAdviserBox.config(text="Personal Adviser:"
+                                "\nYou succesfully returned to your saved game!"
+                                f"\nJust to remind you: Year {(game.time-1)//12+1}. Month {(game.time-1)%12+1}"
+                                f"\nYour networth is around ${game.netWorth} "
+                                f"and your credits are ${game.credit}"
+                                f"Keep up the good job!"
+                                )  
 
